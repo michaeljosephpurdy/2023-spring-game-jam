@@ -1,6 +1,6 @@
 Physics = {}
 
-local Y_GRAV = 80
+local Y_GRAV = 160
 local current_world
 
 Physics.get_world = function()

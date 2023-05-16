@@ -366,7 +366,7 @@ function ldtk:goTo(index)
     if self.flipped then
         for i = self.countOfLayers, 1, -1 do
             types[layers[i].__type](layers[i], i)
-        end    
+        end
     else
         for i = 1, self.countOfLayers do
             types[layers[i].__type](layers[i], i)
@@ -430,13 +430,10 @@ end
 function ldtk.removeCache()
     cache = {
         tilesets = {
-            
         },
         quods = {
-            
         },
         batch = {
-
         }
     }
     collectgarbage()
