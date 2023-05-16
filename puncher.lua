@@ -66,7 +66,7 @@ Puncher.resume = function()
   end)
 end
 
-Puncher.update = function(dt)
+Puncher.update_all = function(dt)
   if paused then return end
   for_each(punchers, function(puncher)
     puncher.countdown = puncher.countdown - dt

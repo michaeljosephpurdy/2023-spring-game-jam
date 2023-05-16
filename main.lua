@@ -158,7 +158,8 @@ end
 
 function love.update(dt)
   UI.update()
-  Puncher.update(dt) -- puncher needs dt for countdown
+  Puncher.update_all(dt) -- puncher needs dt for countdown
+  EndButton.update_all()
   --if SimState.is_build() then
     --dt = 0
   --end
