@@ -2,10 +2,12 @@ json = require 'plugins/json'
 ldtk = require 'plugins/ldtk'
 
 SCALE = 2
-DEBUG = false
+DEBUG = false 
 
 require 'utils'
 require 'sprite'
+require 'timed-function'
+---
 require 'boundary'
 require 'ui'
 require 'physics'
@@ -115,6 +117,10 @@ function love.load()
   end
 
   function ldtk.onLevelLoaded(level)
+    Domino.remove_all()
+    EndButton.remove_all()
+    Puncher.remove_all()
+    objects = {}
     world = Physics.get_world()
     love.graphics.setBackgroundColor(level.backgroundColor)
     tprint(level, '\n\nlevelLoaded')
@@ -158,6 +164,7 @@ end
 
 function love.update(dt)
   UI.update()
+  TimedFunction.update_all(dt)
   Puncher.update_all(dt) -- puncher needs dt for countdown
   EndButton.update_all()
   --if SimState.is_build() then
@@ -189,10 +196,13 @@ function love.draw()
     end
     UI:draw()
 
-    for i, msg in ipairs({
-      love.timer.getFPS(),
-      'x: ' .. tostring(love.mouse.getX() / SCALE) .. 'y: ' .. tostring(love.mouse.getY() / SCALE),
-    }) do
-      love.graphics.print(msg, 0, (i - 1)* 16)
+    if DEBUG then
+      love.graphics.setColor(0.5, 0.7, 0.2)
+      for i, msg in ipairs({
+        love.timer.getFPS(),
+        'x: ' .. tostring(love.mouse.getX() / SCALE) .. 'y: ' .. tostring(love.mouse.getY() / SCALE),
+      }) do
+        love.graphics.print(msg, 0, (i - 1)* 16)
+      end
     end
 end

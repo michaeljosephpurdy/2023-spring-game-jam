@@ -23,10 +23,7 @@ UI.load = function()
       Puncher.resume()
     end,
     update = function(self)
-      self.disabled = false
-      if SimState.is_running() then
-        self.disabled = true
-      end
+      self.disabled = not SimState.is_build()
     end,
     draw = draw,
     pos = 0,
@@ -43,7 +40,7 @@ UI.load = function()
       Puncher.pause()
     end,
     update = function(self)
-      self.disabled = SimState.is_build()
+      self.disabled = not SimState.is_running()
     end,
     draw = draw,
     pos = 1,
@@ -61,16 +58,31 @@ UI.load = function()
       ldtk:goTo(GameState.get_level())
     end,
     update = function(self)
-      self.disabled = SimState.is_running()
+      self.disabled = not SimState.is_build()
     end,
     draw = draw,
     pos = 2,
   }
+  local next_button = {
+    sprite = Sprite.newQuad(8, 1),
+    disabled_sprite = Sprite.newQuad(9, 1),
+    click = function(self)
+      if self.disabled then return end
+      GameState.next_level()
+      print('load next level')
+    end,
+    update = function(self)
+      self.disabled = not SimState.is_successful()
+    end,
+    draw = draw,
+    pos = 3,
+  }
   table.insert(ui_elements, play_button)
   table.insert(ui_elements, stop_button)
   table.insert(ui_elements, restart_button)
+  table.insert(ui_elements, next_button)
 
-  local x, y, spacing = 172, 8, 24
+  local x, y, spacing = 164, 8, 24
   for _, button in pairs(ui_elements) do
     button.x = x + (button.pos * spacing)
     button.y = y
