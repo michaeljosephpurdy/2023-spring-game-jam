@@ -18,6 +18,7 @@ UI.load = function()
     click = function(self)
       if self.disabled then return end
       print('ui - play clicked')
+      SimState.set_running()
       Domino.resume()
       Puncher.resume()
     end,
@@ -32,17 +33,17 @@ UI.load = function()
   }
   local stop_button = {
     sprite = Sprite.newQuad(6, 0),
-    disabled_sprite = Sprite.newQuad(9, 16),
+    disabled_sprite = Sprite.newQuad(9, 0),
     click = function(self)
+      if self.disabled then return end
       print('ui - stop clicked')
+      SimState.set_buildling()
+      Domino.reset_all()
       Domino.pause()
       Puncher.pause()
     end,
     update = function(self)
-      self.disabled = false
-      if SimState.is_build() then
-        self.disabled = true
-      end
+      self.disabled = SimState.is_build()
     end,
     draw = draw,
     pos = 1,
@@ -53,10 +54,14 @@ UI.load = function()
     click = function(self)
       if self.disabled then return end
       print('ui - restart clicked')
+      SimState.set_buildling()
       Domino.remove_all()
+      Puncher.remove_all()
+      EndButton.remove_all()
       ldtk:goTo(GameState.get_level())
     end,
     update = function(self)
+      self.disabled = SimState.is_running()
     end,
     draw = draw,
     pos = 2,
@@ -74,14 +79,17 @@ UI.load = function()
 
   local new_domino_button = {
     add_sprite = Sprite.newQuad(5, 1),
+    disabled_add_sprite = Sprite.newQuad(7, 1),
     x = 40,
     y = 40,
     width = 16,
     height = 16,
     click = function(self)
+      if self.disabled then return end
       Domino.new()
     end,
     update = function(self)
+      self.disabled = not Domino.can_spawn()
     end,
     draw = function(self)
       love.graphics.setColor(1, 1, 1)
@@ -89,7 +97,11 @@ UI.load = function()
       local max_count = tostring(Domino.get_count())
       local label = string.format('domino (%s/%s)', current_count, max_count)
       love.graphics.print(label, self.x + 20, self.y)
-      love.graphics.draw(Sprite.texture, self.add_sprite, self.x, self.y)
+      if self.disabled then
+        love.graphics.draw(Sprite.texture, self.disabled_add_sprite, self.x, self.y)
+      else
+        love.graphics.draw(Sprite.texture, self.add_sprite, self.x, self.y)
+      end
     end,
   }
   table.insert(ui_elements, new_domino_button)

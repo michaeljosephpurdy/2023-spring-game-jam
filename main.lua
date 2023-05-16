@@ -2,7 +2,7 @@ json = require 'plugins/json'
 ldtk = require 'plugins/ldtk'
 
 SCALE = 2
-DEBUG = true 
+DEBUG = false
 
 require 'utils'
 require 'sprite'
