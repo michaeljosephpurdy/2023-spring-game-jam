@@ -3,18 +3,36 @@ GameState = {}
 local GAME_STATES = {
   TITLE = 1,
   GAME = 2,
+  FINISHED = 3,
 }
 
 local current_level = 1
 local game_state = GAME_STATES.GAME
 
 GameState.next_level = function()
-  current_level = current_level + 1
-  ldtk:goTo(current_level)
+  if ldtk:hasNext() then
+    current_level = current_level + 1
+    ldtk:goTo(current_level)
+  else
+    current_level = 1
+    game_state = GAME_STATES.FINISHED
+  end
 end
 
 GameState.get_level = function()
   return current_level
+end
+
+GameState.is_title = function()
+  return game_state == GAME_STATES.TITLE
+end
+
+GameState.is_simulation = function()
+  return game_state == GAME_STATES.GAME
+end
+
+GameState.is_finished = function()
+  return game_state == GAME_STATES.FINISHED
 end
 
 ---

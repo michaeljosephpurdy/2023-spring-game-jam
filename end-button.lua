@@ -29,6 +29,7 @@ EndButton.new = function(x, y, world)
   button.untouched_button:setActive(true)
   button.touched_button:setActive(false)
   button.update = function(self)
+    if not SimState.is_running() then return end
     if self.activated then return end
     local vx, vy = self.untouched_button:getLinearVelocity()
     if math.abs(vx) > THRESHOLD or math.abs(vy) > THRESHOLD then

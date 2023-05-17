@@ -2,15 +2,17 @@ json = require 'plugins/json'
 ldtk = require 'plugins/ldtk'
 
 SCALE = 2
-DEBUG = false 
+DEBUG = false
 
 require 'utils'
 require 'sprite'
 require 'timed-function'
+require 'pico-colors'
 ---
 require 'boundary'
 require 'ui'
 require 'physics'
+require 'horizontal-moving-platform'
 require 'domino'
 require 'state'
 require 'end-button'
@@ -102,6 +104,8 @@ function love.load()
       Boundary.new(entity.x, entity.y, world)
     elseif (entity.id == 'SpawnPoint') then
       Domino.set_spawn_point(entity.x, entity.y)
+    elseif (entity.id == 'MovingPlatform_Horizontal') then
+      HorizontalMovingPlatform.new(entity.x, entity.y, world)
     end
   end
 
@@ -120,12 +124,18 @@ function love.load()
     Domino.remove_all()
     EndButton.remove_all()
     Puncher.remove_all()
+    Boundary.remove_all()
     objects = {}
     world = Physics.get_world()
     love.graphics.setBackgroundColor(level.backgroundColor)
     tprint(level, '\n\nlevelLoaded')
-    SimState.set_buildling()
     -- Current level is about to be changed.
+  end
+
+  function ldtk.onTileCreated(identifier, tile)
+    if identifier == 'Collisions' then
+      Boundary.new(tile.px[1], tile.px[2], Physics.get_world())
+    end
   end
 
   function ldtk.onLevelCreated(level)
@@ -141,6 +151,12 @@ function love.load()
   ldtk:goTo(GameState.get_level())
 
   UI.load()
+end
+
+function love.keyreleased(key, scancode)
+  if key == 'n' then
+    GameState.next_level()
+  end
 end
 
 function love.mousepressed( x, y, button, istouch, presses )
@@ -163,28 +179,29 @@ function love.mousemoved( x, y, dx, dy, istouch )
 end
 
 function love.update(dt)
-  UI.update()
-  TimedFunction.update_all(dt)
-  Puncher.update_all(dt) -- puncher needs dt for countdown
-  EndButton.update_all()
-  --if SimState.is_build() then
-    --dt = 0
-  --end
-  Physics.get_world():update(dt)
-  for _, obj in pairs(objects) do
-    if obj.update then
-      obj:update()
+  if GameState.is_simulation() then
+    TimedFunction.update_all(dt)
+    UI.update()
+    Puncher.update_all(dt) -- puncher needs dt for countdown
+    EndButton.update_all()
+    HorizontalMovingPlatform.update_all()
+    Physics.get_world():update(dt)
+    for _, obj in pairs(objects) do
+      if obj.update then
+        obj:update()
+      end
     end
   end
 end
 
 function love.draw()
-    love.graphics.scale(SCALE)
-    love.graphics.setColor(1, 0, 0)
+  love.graphics.scale(SCALE)
+  if GameState.is_simulation() then
     Domino.draw_all()
     Boundary.draw_all()
     EndButton.draw_all()
     Puncher.draw_all()
+    HorizontalMovingPlatform.draw_all()
     for _, obj in pairs(objects) do
       if obj.draw then
         obj:draw()
@@ -195,14 +212,15 @@ function love.draw()
       end
     end
     UI:draw()
+  end
 
-    if DEBUG then
-      love.graphics.setColor(0.5, 0.7, 0.2)
-      for i, msg in ipairs({
-        love.timer.getFPS(),
-        'x: ' .. tostring(love.mouse.getX() / SCALE) .. 'y: ' .. tostring(love.mouse.getY() / SCALE),
-      }) do
-        love.graphics.print(msg, 0, (i - 1)* 16)
-      end
+  if DEBUG then
+    love.graphics.setColor(0.5, 0.7, 0.2)
+    for i, msg in ipairs({
+      love.timer.getFPS(),
+      'x: ' .. tostring(love.mouse.getX() / SCALE) .. 'y: ' .. tostring(love.mouse.getY() / SCALE),
+    }) do
+      love.graphics.print(msg, 0, (i - 1)* 16)
     end
+  end
 end

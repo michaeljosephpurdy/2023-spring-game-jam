@@ -12,11 +12,11 @@ Domino = {}
 
 Domino.draw = function(self)
   local x, y, width, height = self.body:getWorldPoints(self.shape:getPoints())
-  love.graphics.setColor(0.20, 0.20, 0.20)
-  love.graphics.polygon("fill", self.body:getWorldPoints(self.shape:getPoints()))
+  love.graphics.setColor(PicoColors.LIGHT_BLUE)
   if self.picked_up then
-    love.graphics.print('picked up', x, y)
+    love.graphics.setColor(PicoColors.PINK)
   end
+  love.graphics.polygon("fill", self.body:getWorldPoints(self.shape:getPoints()))
 end
 
 Domino.new = function(x, y)

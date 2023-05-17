@@ -1,8 +1,15 @@
 local ui_elements = {}
 
+local overlaps_mouse = function(x, y, element)
+  local mx, my = x / SCALE, y / SCALE
+  return mx >= element.x and mx <= element.x + element.width and
+         my >= element.y and my <= element.y + element.height
+end
+
 UI = {}
 
 UI.load = function()
+  local overlay = love.graphics.newImage('data/assets/tutorial-overlay.png')
   local texture = Sprite.texture
   local draw = function(self)
     love.graphics.setColor(1, 1, 1)
@@ -21,6 +28,7 @@ UI.load = function()
       SimState.set_running()
       Domino.resume()
       Puncher.resume()
+      HorizontalMovingPlatform.resume()
     end,
     update = function(self)
       self.disabled = not SimState.is_build()
@@ -38,6 +46,7 @@ UI.load = function()
       Domino.reset_all()
       Domino.pause()
       Puncher.pause()
+      HorizontalMovingPlatform.pause()
     end,
     update = function(self)
       self.disabled = not SimState.is_running()
@@ -55,6 +64,7 @@ UI.load = function()
       Domino.remove_all()
       Puncher.remove_all()
       EndButton.remove_all()
+      HorizontalMovingPlatform.remove_all()
       ldtk:goTo(GameState.get_level())
     end,
     update = function(self)
@@ -69,7 +79,6 @@ UI.load = function()
     click = function(self)
       if self.disabled then return end
       GameState.next_level()
-      print('load next level')
     end,
     update = function(self)
       self.disabled = not SimState.is_successful()
@@ -92,8 +101,8 @@ UI.load = function()
   local new_domino_button = {
     add_sprite = Sprite.newQuad(5, 1),
     disabled_add_sprite = Sprite.newQuad(7, 1),
-    x = 40,
-    y = 40,
+    x = 8,
+    y = 8,
     width = 16,
     height = 16,
     click = function(self)
@@ -101,7 +110,7 @@ UI.load = function()
       Domino.new()
     end,
     update = function(self)
-      self.disabled = not Domino.can_spawn()
+      self.disabled = not Domino.can_spawn() or not SimState.is_build()
     end,
     draw = function(self)
       love.graphics.setColor(1, 1, 1)
@@ -117,6 +126,29 @@ UI.load = function()
     end,
   }
   table.insert(ui_elements, new_domino_button)
+
+  local question_mark_button = {
+    sprite = Sprite.newQuad(10, 1),
+    x = 240,
+    y = 240,
+    width = 16,
+    height = 16,
+    show_overlay = false,
+    click = function(self)
+      return
+    end,
+    update = function(self)
+      self.show_overlay = overlaps_mouse(love.mouse.getX(), love.mouse.getY(), self)
+    end,
+    draw = function(self)
+      love.graphics.setColor(1, 1, 1)
+      love.graphics.draw(Sprite.texture, self.sprite, self.x, self.y)
+      if self.show_overlay then
+        love.graphics.draw(overlay, 0, 0, 0, 1/SCALE, 1/SCALE)
+      end
+    end,
+  }
+  table.insert(ui_elements, question_mark_button)
 end
 
 UI.update = function()
@@ -132,10 +164,8 @@ UI.draw = function()
 end
 
 UI.handleClick = function(x, y, button, istouch, presses)
-  local mx, my = x / SCALE, y / SCALE
   for _, element in pairs(ui_elements) do
-    if (mx >= element.x and mx <= element.x + element.width and
-        my >= element.y and my <= element.y + element.height ) then
+    if overlaps_mouse(x, y, element) then
       element:click()
     end
   end

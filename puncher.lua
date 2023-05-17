@@ -7,7 +7,7 @@ Puncher.new = function(x, y, world)
   local ent = {
     x = x,
     y = y,
-    spawn_location = { x, y },
+    spawn_location = { x + 8, y + 8 },
     sprite = Sprite.newQuad(4, 0),
     color = { 0, 0, 1 },
     width = 16,
@@ -47,6 +47,7 @@ Puncher.remove_all = function()
     puncher.body:destroy()
   end)
   punchers = {}
+  paused = true
 end
 
 Puncher.pause = function()

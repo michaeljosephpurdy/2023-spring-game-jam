@@ -114,6 +114,10 @@ local function create_layer_object(self, data, auto)
         self.tiles = data.gridTiles
     end
 
+    for _, tile in pairs(self.tiles) do
+        ldtk.onTileCreated(data.__identifier, tile)
+    end
+
     self._tilesLen = #self.tiles
 
     self.relPath = data.__tilesetRelPath
@@ -411,6 +415,10 @@ function ldtk:getCurrent()
     return self.currentLevelIndex
 end
 
+function ldtk:hasNext()
+    return self.currentLevelIndex < self.countOfLevels
+end
+
 --get the current level name
 function ldtk:getCurrentName()
     return ldtk.levelsNames[self:getCurrent()]
@@ -528,7 +536,7 @@ function ldtk.onLevelCreated(levelData)
     
 end
 
-
-
+function ldtk.onTileCreated(identifer, tile)
+end
 
 return ldtk
