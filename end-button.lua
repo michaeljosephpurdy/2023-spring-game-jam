@@ -27,7 +27,7 @@ EndButton.new = function(x, y, world)
   button.touched_button = love.physics.newBody(world, x + 8, y + 10, 'static') --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
   button.touched_shape = love.physics.newRectangleShape(4, 2)
   button.touched_fixture = love.physics.newFixture(button.touched_button, button.touched_shape, 10) --attach shape to body
-  button.untouched_button:setActive(true)
+  button.untouched_button:setActive(false)
   button.touched_button:setActive(false)
   button.update = function(self)
     if not SimState.is_running() then return end
@@ -63,8 +63,13 @@ EndButton.update_all = function()
   for_each(buttons, function(button) button:update() end)
 end
 
-EndButton.enable = function(should_enable)
+EndButton.enable = function(is_enabled)
   for_each(buttons, function(button)
-   button.enabled = should_enable
+    if not button.enabled then
+      button.enabled = is_enabled
+    else
+      button.untouched_button:setActive(true)
+      print('enabled')
+    end
   end)
 end

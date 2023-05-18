@@ -46,6 +46,7 @@ Intro.load = function()
   next_button = {
     x = 224 , y = 240, width = 32, height = 16,
     sprite = Sprite.newQuad(13, 0, 32, 16),
+    disabled_sprite = Sprite.newQuad(15, 0, 32, 16),
     disabled = true,
     click = function(self)
       if (current_segment == #SEGMENTS) then
@@ -81,7 +82,9 @@ Intro.draw = function()
   love.graphics.setColor(PicoColors.WHITE)
   love.graphics.print(text, 20, 20)
   love.graphics.setColor(1, 1, 1)
-  if not next_button.disabled then
+  if next_button.disabled then
+    love.graphics.draw(Sprite.texture, next_button.disabled_sprite, next_button.x, next_button.y)
+  else
     love.graphics.draw(Sprite.texture, next_button.sprite, next_button.x, next_button.y)
   end
 end
