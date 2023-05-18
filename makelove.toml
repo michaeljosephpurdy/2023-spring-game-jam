@@ -1,0 +1,9 @@
+name = "2023 Spring Game Jam"
+default_targets = ["lovejs"]
+build_directory = "makelove-build"
+
+love_files = [
+    "::git-ls-tree::",
+    "-*/.*",
+    "-*/dist*",
+]
