@@ -5,6 +5,8 @@ Sprite.load = function()
 end
 
 Sprite.newQuad = function(x, y, width, height)
-  return love.graphics.newQuad(x * 16, y * 16, width or 16, height or 16, Sprite.texture)
+  local w = width or 16
+  local h = height or 16
+  return love.graphics.newQuad(x * 16, y * 16, w, h, Sprite.texture)
 end
 

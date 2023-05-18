@@ -7,7 +7,7 @@ local GAME_STATES = {
 }
 
 local current_level = 1
-local game_state = GAME_STATES.GAME
+local game_state = GAME_STATES.TITLE
 
 GameState.next_level = function()
   if ldtk:hasNext() then
@@ -21,6 +21,10 @@ end
 
 GameState.get_level = function()
   return current_level
+end
+
+GameState.set_simulation = function()
+  game_state = GAME_STATES.GAME
 end
 
 GameState.is_title = function()

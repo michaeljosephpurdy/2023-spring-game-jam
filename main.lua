@@ -9,14 +9,15 @@ require 'sprite'
 require 'timed-function'
 require 'pico-colors'
 ---
+require 'state'
 require 'boundary'
 require 'ui'
 require 'physics'
 require 'horizontal-moving-platform'
 require 'domino'
-require 'state'
 require 'end-button'
 require 'puncher'
+require 'intro'
 
 function tprint(tbl, id)
   print(id)
@@ -139,18 +140,18 @@ function love.load()
   end
 
   function ldtk.onLevelCreated(level)
-    tprint(level, '\n\nlevelCreated')
     Domino.set_count(level.props.domino_count)
     --Here we use a string defined in LDtk as a function
-    if level.props.createFunction then
-      load(level.props.createFunction)()
-    end
+    --if level.props.createFunction then
+      --load(level.props.createFunction)()
+    --end
     SimState.set_buildling()
   end
 
-  ldtk:goTo(GameState.get_level())
 
+  Intro.load()
   UI.load()
+  ldtk:goTo(GameState.get_level())
 end
 
 function love.keyreleased(key, scancode)
@@ -160,6 +161,10 @@ function love.keyreleased(key, scancode)
 end
 
 function love.mousepressed( x, y, button, istouch, presses )
+  if GameState.is_title() then
+    Intro.handlePress(x, y, button, istouch, presses)
+    return
+  end
   UI.handleClick(x, y, button, istouch, presses)
   if SimState.is_build() then
     Domino.handlePress(x, y, button, istouch, presses)
@@ -167,18 +172,23 @@ function love.mousepressed( x, y, button, istouch, presses )
 end
 
 function love.mousereleased( x, y, button, istouch, presses )
+  if GameState.is_title() then return end
   if SimState.is_build() then
     Domino.handleRelease(x, y, button, istouch, presses)
   end
 end
 
 function love.mousemoved( x, y, dx, dy, istouch )
+  if GameState.is_title() then return end
   if SimState.is_build() then
     Domino.handleMove(x, y, dx, dy, istouch)
   end
 end
 
 function love.update(dt)
+  if GameState.is_title() then
+    Intro.update(dt)
+  end
   if GameState.is_simulation() then
     TimedFunction.update_all(dt)
     UI.update()
@@ -196,6 +206,9 @@ end
 
 function love.draw()
   love.graphics.scale(SCALE)
+  if GameState.is_title() then
+    Intro.draw()
+  end
   if GameState.is_simulation() then
     Domino.draw_all()
     Boundary.draw_all()
