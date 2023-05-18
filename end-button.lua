@@ -18,6 +18,7 @@ EndButton.new = function(x, y, world)
     height = 16,
     visible = true,
     activated = false,
+    enabled = false,
     type = type,
   }
   button.untouched_button = love.physics.newBody(world, x + 8, y + 8, 'dynamic') --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
@@ -31,6 +32,7 @@ EndButton.new = function(x, y, world)
   button.update = function(self)
     if not SimState.is_running() then return end
     if self.activated then return end
+    if not self.enabled then return end
     local vx, vy = self.untouched_button:getLinearVelocity()
     if math.abs(vx) > THRESHOLD or math.abs(vy) > THRESHOLD then
       self.activated = true
@@ -59,4 +61,10 @@ end
 
 EndButton.update_all = function()
   for_each(buttons, function(button) button:update() end)
+end
+
+EndButton.enable = function(should_enable)
+  for_each(buttons, function(button)
+   button.enabled = should_enable
+  end)
 end

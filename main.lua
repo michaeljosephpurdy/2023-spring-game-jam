@@ -193,6 +193,7 @@ function love.update(dt)
     TimedFunction.update_all(dt)
     UI.update()
     Puncher.update_all(dt) -- puncher needs dt for countdown
+    EndButton.enable(Puncher.is_fired())
     EndButton.update_all()
     HorizontalMovingPlatform.update_all()
     Physics.get_world():update(dt)

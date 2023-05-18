@@ -16,11 +16,17 @@ Puncher.new = function(x, y, world)
     fired = false,
     countdown = COUNTDOWN,
   }
-  ent.body = love.physics.newBody(world, x + 8, y + 8, 'dynamic') --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
-  ent.anchor = love.physics.newBody(world, x, y + 8, 'static')
+  -- create the ball
+  ent.body = love.physics.newBody(world, x + 8, y + 8, 'dynamic')
   ent.shape = love.physics.newCircleShape(6)
-  ent.fixture = love.physics.newFixture(ent.body, ent.shape, 1) --attach shape to body
-  ent.anchor_fixture = love.physics.newFixture(ent.anchor, ent.shape, 1)
+  ent.fixture = love.physics.newFixture(ent.body, ent.shape, 1)
+
+  -- create the anchor
+  ent.anchor = love.physics.newBody(world, x, y + 8, 'static')
+
+  -- link the two together
+  local chain = love.physics.newRopeJoint(ent.body, ent.anchor, ent.body:getX(), ent.body:getY(), ent.anchor:getX(), ent.anchor:getY(), 20, false);
+
   ent.body:setActive(false)
   table.insert(punchers, ent)
   return ent
@@ -78,4 +84,13 @@ Puncher.update_all = function(dt)
       puncher.body:applyLinearImpulse(50, 0, x, y)
     end
   end)
+end
+
+Puncher.is_fired = function()
+  for_each(punchers, function(puncher)
+    if puncher.fired then
+      return true
+    end
+  end)
+  return false
 end
