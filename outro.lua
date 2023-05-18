@@ -1,4 +1,4 @@
-Intro = {}
+Outro = {}
 local next_button
 local images = {}
 
@@ -7,6 +7,7 @@ local WHITE_HOUSE = 1
 local OVAL_OFFICE = 2
 local ANDY_JASSY = 3
 local MIKE_PURDY = 4
+local JEFF_BEZOS = 5
 
 local SEGMENTS = {
   -- [1] active images, [2] freeform text, [3] time till next button, [5] % height
@@ -28,17 +29,14 @@ local SEGMENTS = {
   { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nWhat's the theme?", 1.5, .4 },
   { { OVAL_OFFICE, ANDY_JASSY, MIKE_PURDY }, "Me:\nChain Reaction.", 1.5, .4 },
   { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nWell... What I need you to do\nis solve puzzles based on\ninteractions between objects.", 3, .7 },
-  { { OVAL_OFFICE, ANDY_JASSY, MIKE_PURDY }, "Me:\nHow will that help rescue\nthe President?.", 1.5, .55 },
-  { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nRemember...\nLeaders are right, a lot.\nYou'll have to trust me.", 3, .7 },
-  { { OVAL_OFFICE, ANDY_JASSY, MIKE_PURDY }, "Me:\nHmm.... Solving puzzles based on\nobjects interacting with eachother\ndoes sound like a good\nimplementation of the theme...", 3, .9 },
-  { { OVAL_OFFICE, ANDY_JASSY, MIKE_PURDY }, "Me:\nBut I won't have time\nto work on my game.", 3, .5 },
+  { { OVAL_OFFICE, ANDY_JASSY, MIKE_PURDY }, "Me:\nHmm.... That sounds like a good \nimplementation of the theme.\nBut then I won't have time\nto make my own game.", 3, .9 },
   { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nThis, like RTO, is not an option.\nYou must do it.", 3, .7 },
   { { OVAL_OFFICE }, "", 1, 0 },
 }
 local current_segment = 1
 local current_timeleft
 
-Intro.load = function()
+Outro.load = function()
   images[WHITE_HOUSE] = love.graphics.newImage('data/assets/white-house.png')
   images[OVAL_OFFICE] = love.graphics.newImage('data/assets/oval-office.png')
   images[ANDY_JASSY] = love.graphics.newImage('data/assets/andy-jassy.png')
@@ -60,14 +58,14 @@ Intro.load = function()
   current_timeleft = SEGMENTS[current_segment][3]
 end
 
-Intro.update = function(dt)
+Outro.update = function(dt)
   current_timeleft = current_timeleft - dt
   if current_timeleft < 0 then
     next_button.disabled = false
   end
 end
 
-Intro.draw = function()
+Outro.draw = function()
   local segment = SEGMENTS[current_segment]
   love.graphics.scale(1/SCALE)
   local imgs = segment[1]
@@ -86,7 +84,7 @@ Intro.draw = function()
   end
 end
 
-Intro.handlePress = function(x, y, button, istouch, presses)
+Outro.handlePress = function(x, y, button, istouch, presses)
   if overlaps_mouse(x, y, next_button) then
     next_button:click()
   end
