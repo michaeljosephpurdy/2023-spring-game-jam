@@ -2,6 +2,7 @@ local dominos = {}
 local built_dominos_locations = {}
 local domino_count = 0
 local spawn_point
+local DENSITY = 5
 local for_each_domino = function(fn)
   for _, domino in pairs(dominos) do
     fn(domino)
@@ -32,7 +33,7 @@ Domino.new = function(x, y)
   domino.body = love.physics.newBody(world, x or spawn_point.x, y or spawn_point.y, 'dynamic')
   domino.body:setActive(false)
   domino.shape = love.physics.newRectangleShape(0, 0, domino.width, domino.height)
-  domino.fixture = love.physics.newFixture(domino.body, domino.shape, 5) -- A higher density gives it more mass.
+  domino.fixture = love.physics.newFixture(domino.body, domino.shape, DENSITY) -- A higher density gives it more mass.
   table.insert(dominos, domino)
   domino.draw = Domino.draw
   return domino

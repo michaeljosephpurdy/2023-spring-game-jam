@@ -13,8 +13,8 @@ TimedFunction.update_all = function(dt)
   for i, fn in pairs(functions) do
     fn.time = fn.time - dt
     if fn.time < 0 then
-      fn()
-      functions[i] = nil
+      fn.func()
+      table.remove(functions, i)
     end
   end
 end

@@ -5,9 +5,9 @@ local GAME_STATES = {
   GAME = 2,
   FINISHED = 3,
 }
+local game_state = GAME_STATES.GAME
 
 local current_level = 1
-local game_state = GAME_STATES.TITLE
 
 GameState.next_level = function()
   if ldtk:hasNext() then

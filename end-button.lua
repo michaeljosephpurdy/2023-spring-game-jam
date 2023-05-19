@@ -1,5 +1,6 @@
 local buttons = {}
 local THRESHOLD = 15
+local delay = 3
 EndButton = {}
 
 EndButton.draw_all = function()
@@ -27,14 +28,13 @@ EndButton.new = function(x, y, world)
   button.touched_button = love.physics.newBody(world, x + 8, y + 10, 'static') --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
   button.touched_shape = love.physics.newRectangleShape(4, 2)
   button.touched_fixture = love.physics.newFixture(button.touched_button, button.touched_shape, 10) --attach shape to body
-  button.untouched_button:setActive(false)
+  button.untouched_button:setActive(true)
   button.touched_button:setActive(false)
   button.update = function(self)
     if not SimState.is_running() then return end
     if self.activated then return end
-    if not self.enabled then return end
     local vx, vy = self.untouched_button:getLinearVelocity()
-    if math.abs(vx) > THRESHOLD or math.abs(vy) > THRESHOLD then
+    if math.abs(vx) > THRESHOLD or math.abs(vy) > THRESHOLD and self.enabled then
       self.activated = true
       SimState.set_successful()
     end
@@ -63,13 +63,17 @@ EndButton.update_all = function()
   for_each(buttons, function(button) button:update() end)
 end
 
-EndButton.enable = function(is_enabled)
+EndButton.pause = function()
   for_each(buttons, function(button)
-    if not button.enabled then
-      button.enabled = is_enabled
-    else
-      button.untouched_button:setActive(true)
-      print('enabled')
-    end
+    button.enabled = false
   end)
 end
+
+EndButton.resume = function()
+  for_each(buttons, function(button)
+    TimedFunction.new(function()
+      button.enabled = true
+    end, delay)
+  end)
+end
+

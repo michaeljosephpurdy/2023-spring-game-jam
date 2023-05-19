@@ -2,7 +2,7 @@ json = require 'plugins/json'
 ldtk = require 'plugins/ldtk'
 
 SCALE = 2
-DEBUG = false
+DEBUG = true
 
 require 'utils'
 require 'sprite'
@@ -106,12 +106,12 @@ function love.load()
     elseif (entity.id == 'SpawnPoint') then
       Domino.set_spawn_point(entity.x, entity.y)
     elseif (entity.id == 'MovingPlatform_Horizontal') then
-      HorizontalMovingPlatform.new(entity.x, entity.y, world)
+      tprint(entity, 'entity')
+      HorizontalMovingPlatform.new(entity.x, entity.y, entity.width, world)
     end
   end
 
   function ldtk.onLayer(layer)
-    tprint(layer, 'layer')
     if layer.id == 'Collisions' then
       --love.physics.newBody(physics_world, layer.x, layer.y, 'static')
     end
@@ -123,13 +123,13 @@ function love.load()
 
   function ldtk.onLevelLoaded(level)
     Domino.remove_all()
+    Domino.reset_all()
     EndButton.remove_all()
     Puncher.remove_all()
     Boundary.remove_all()
     objects = {}
     world = Physics.get_world()
     love.graphics.setBackgroundColor(level.backgroundColor)
-    tprint(level, '\n\nlevelLoaded')
     -- Current level is about to be changed.
   end
 
@@ -141,6 +141,9 @@ function love.load()
 
   function ldtk.onLevelCreated(level)
     Domino.set_count(level.props.domino_count)
+    if level.props.domino_count == 0 and DEBUG then
+      Domino.set_count(10)
+    end
     --Here we use a string defined in LDtk as a function
     --if level.props.createFunction then
       --load(level.props.createFunction)()
@@ -193,7 +196,6 @@ function love.update(dt)
     TimedFunction.update_all(dt)
     UI.update()
     Puncher.update_all(dt) -- puncher needs dt for countdown
-    EndButton.enable(Puncher.is_fired())
     EndButton.update_all()
     HorizontalMovingPlatform.update_all()
     Physics.get_world():update(dt)
