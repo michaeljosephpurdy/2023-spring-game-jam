@@ -33,7 +33,7 @@ local SEGMENTS = {
   { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nWhat's written there is as true\ntoday as it was in 1997...", 1.5, .55 },
   { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nI must go,\nthank you for rescuing me.", 1.5, .55 },
   { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nYou know the true meaning", .7, .55, true},
-  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nYou know the true meaning of\nCustomer Obsession.", 1.5, .55 },
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nYou know the true meaning\nof Customer Obsession.", 1.5, .55 },
   { { OVAL_OFFICE, MIKE_PURDY }, "", .7, 0, true},
   { { OVAL_OFFICE, MIKE_PURDY }, "Me:\nUgh...", .7, .65, true},
   { { OVAL_OFFICE, MIKE_PURDY }, "Me:\nUgh...\nI didn't get to ask about my\nRTO exemption.", 3, .65 },
