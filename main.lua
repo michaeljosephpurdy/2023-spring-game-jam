@@ -19,6 +19,7 @@ require 'end-button'
 require 'puncher'
 require 'intro'
 require 'outro'
+require 'audio'
 
 function tprint(tbl, id)
   print(id)
@@ -155,6 +156,7 @@ function love.load()
 
   Intro.load()
   Outro.load()
+  Audio.load()
   UI.load()
   ldtk:goTo(GameState.get_level())
 end
@@ -198,6 +200,7 @@ function love.update(dt)
   TimedFunction.update_all(dt)
   if GameState.is_simulation() then
     UI.update()
+    Audio.update()
     Puncher.update_all(dt) -- puncher needs dt for countdown
     EndButton.update_all()
     HorizontalMovingPlatform.update_all()

@@ -16,6 +16,7 @@ GameState.next_level = function()
   else
     current_level = 1
     game_state = GAME_STATES.FINISHED
+    Audio.stop()
   end
 end
 
@@ -24,11 +25,16 @@ GameState.get_level = function()
 end
 
 GameState.set_title = function()
+  Audio.stop()
   game_state = GAME_STATES.TITLE
 end
 
 GameState.set_simulation = function()
   game_state = GAME_STATES.GAME
+end
+
+GameState.set_finished = function()
+  game_state = GAME_STATES.FINISHED
 end
 
 GameState.is_title = function()
