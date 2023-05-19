@@ -2,7 +2,7 @@ json = require 'plugins/json'
 ldtk = require 'plugins/ldtk'
 
 SCALE = 2
-DEBUG = true
+DEBUG = false
 
 require 'utils'
 require 'sprite'
@@ -18,6 +18,7 @@ require 'domino'
 require 'end-button'
 require 'puncher'
 require 'intro'
+require 'outro'
 
 function tprint(tbl, id)
   print(id)
@@ -153,6 +154,7 @@ function love.load()
 
 
   Intro.load()
+  Outro.load()
   UI.load()
   ldtk:goTo(GameState.get_level())
 end
@@ -166,6 +168,10 @@ end
 function love.mousepressed( x, y, button, istouch, presses )
   if GameState.is_title() then
     Intro.handlePress(x, y, button, istouch, presses)
+    return
+  end
+  if GameState.is_finished() then
+    Outro.handlePress(x, y, button, istouch, presses)
     return
   end
   UI.handleClick(x, y, button, istouch, presses)
@@ -189,11 +195,8 @@ function love.mousemoved( x, y, dx, dy, istouch )
 end
 
 function love.update(dt)
-  if GameState.is_title() then
-    Intro.update(dt)
-  end
+  TimedFunction.update_all(dt)
   if GameState.is_simulation() then
-    TimedFunction.update_all(dt)
     UI.update()
     Puncher.update_all(dt) -- puncher needs dt for countdown
     EndButton.update_all()
@@ -228,6 +231,9 @@ function love.draw()
       end
     end
     UI:draw()
+  end
+  if GameState.is_finished() then
+    Outro.draw()
   end
 
   if DEBUG then

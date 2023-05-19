@@ -5,7 +5,7 @@ local GAME_STATES = {
   GAME = 2,
   FINISHED = 3,
 }
-local game_state = GAME_STATES.GAME
+local game_state = GAME_STATES.TITLE
 
 local current_level = 1
 
@@ -21,6 +21,10 @@ end
 
 GameState.get_level = function()
   return current_level
+end
+
+GameState.set_title = function()
+  game_state = GAME_STATES.TITLE
 end
 
 GameState.set_simulation = function()

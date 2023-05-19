@@ -1,5 +1,5 @@
 local buttons = {}
-local THRESHOLD = 15
+local THRESHOLD = 10
 local delay = 3
 EndButton = {}
 

@@ -10,28 +10,37 @@ local MIKE_PURDY = 4
 local JEFF_BEZOS = 5
 
 local SEGMENTS = {
-  -- [1] active images, [2] freeform text, [3] time till next button, [5] % height
-  { { WHITE_HOUSE }, '', 1, 0 },
-  { { WHITE_HOUSE }, 'White House\nJuly 5, 2044', .5, .4 },
-  { { OVAL_OFFICE }, '', 1, 0} ,
+  -- [1] active images, [2] freeform text, [3] time till next button, [4] % height, [5] auto-press
+  { { OVAL_OFFICE }, '', .25, 0, true } ,
   { { OVAL_OFFICE }, '               The Oval Office', .5, .3} ,
-  { { OVAL_OFFICE, MIKE_PURDY }, "Me:\nWhere's the President?" , 2, .4 },
-  { { OVAL_OFFICE, MIKE_PURDY }, "???:\nHe has to RTO 3x a week,\nso he's not here." , 3, .6 },
-  { { OVAL_OFFICE, MIKE_PURDY }, "Me:\nBut this is his office.\nShouldn't he be here?" , 3, .6 },
-  { { OVAL_OFFICE, MIKE_PURDY }, "Me:\nAnd what are you doing here?" , 2, .4 },
-  { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nThe board decided that I have\nthe most customer obsession.", 3, .5 },
-  { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nThis means I can help\nfill this role for now.", 3, .5 },
-  { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nListen..." , 1,  .5 },
-  { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nI need your help rescuing\nthe President." , 3, .5 },
-  { { OVAL_OFFICE, ANDY_JASSY, MIKE_PURDY }, "Me:\nI don't think I can.\n#gamedev-interest is hosting\na game jam.", 3, .7 },
-  { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nNow?\nI thought they only hosted\njams in the Winter?", 3, .7 },
-  { { OVAL_OFFICE, ANDY_JASSY, MIKE_PURDY }, "Me:\nThat's a common misconception.", 1.5, .4 },
-  { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nWhat's the theme?", 1.5, .4 },
-  { { OVAL_OFFICE, ANDY_JASSY, MIKE_PURDY }, "Me:\nChain Reaction.", 1.5, .4 },
-  { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nWell... What I need you to do\nis solve puzzles based on\ninteractions between objects.", 3, .7 },
-  { { OVAL_OFFICE, ANDY_JASSY, MIKE_PURDY }, "Me:\nHmm.... That sounds like a good \nimplementation of the theme.\nBut then I won't have time\nto make my own game.", 3, .9 },
-  { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Andy Jassy:\nThis, like RTO, is not an option.\nYou must do it.", 3, .7 },
-  { { OVAL_OFFICE }, "", 1, 0 },
+  { { OVAL_OFFICE, ANDY_JASSY }, "Andy Jassy:\nYou did it.\n" , .75, .4 },
+  { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Me:\nPlease include this as\nan example of Deliver Results\non my next Forte." , 3, .65 },
+  { { OVAL_OFFICE, MIKE_PURDY }, "???? ????:\nOh, he will." , .6, .55, true },
+  { { OVAL_OFFICE, MIKE_PURDY }, "???? ????:\nOh, he will.\nI'll make sure of it." , 1, .55 },
+  { { OVAL_OFFICE, MIKE_PURDY }, "Me:\nYou're the President?!" , .25, .4 },
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nThat's right" , .4, .4, true },
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nThat's right, I am." , .5, .4 },
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nWhen you innovate for customers\nfor as long as I have" , .5, .65 },
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nyou end up looking for\nmore challenging pursuits." , .5, .55 },
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nPlus, I heard there was\na PhoneTool icon for\nbecoming President." , .5, .65 },
+  { { OVAL_OFFICE, JEFF_BEZOS, MIKE_PURDY }, "Me:\nYet not one for\n#gamedev-interest game jams." , .5, .55 },
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nTo show my gratitude for you\nrescuing me" , .7, .65, true},
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nTo show my gratitude for you\nrescuing me, please take\nthis letter." , .4, .65 },
+  { { OVAL_OFFICE, JEFF_BEZOS, MIKE_PURDY }, "Me:\nIs this my RTO exemption?" , .7, .55, true},
+  { { OVAL_OFFICE, JEFF_BEZOS, MIKE_PURDY }, "Me:\nIs this my RTO exemption?\nThanks!" , .45, .55 },
+  { { OVAL_OFFICE, JEFF_BEZOS, MIKE_PURDY }, "Me:\nWait a minute...", .65, .55, true },
+  { { OVAL_OFFICE, JEFF_BEZOS, MIKE_PURDY }, "Me:\nWait a minute...\nThis is just the\n'1997 Shareholder Letter'." , .5, .65 },
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nWhat's written there is as true\ntoday as it was in 1997...", 1.5, .55 },
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nI must go,\nthank you for rescuing me.", 1.5, .55 },
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nYou know the true meaning", .7, .55, true},
+  { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nYou know the true meaning of\nCustomer Obsession.", 1.5, .55 },
+  { { OVAL_OFFICE, MIKE_PURDY }, "", .7, 0, true},
+  { { OVAL_OFFICE, MIKE_PURDY }, "Me:\nUgh...", .7, .65, true},
+  { { OVAL_OFFICE, MIKE_PURDY }, "Me:\nUgh...\nI didn't get to ask about my\nRTO exemption.", 3, .65 },
+  { { OVAL_OFFICE }, "", 1, 0, true},
+  { { WHITE_HOUSE }, "Thanks for playing :)", .6, 1, true},
+  { { WHITE_HOUSE }, "Thanks for playing :)\n\nMade by Mike Purdy", .6, 1, true},
+  { { WHITE_HOUSE }, "Thanks for playing :)\n\nMade by Mike Purdy\n\nHit NEXT to play again.", 1, 1 },
 }
 local current_segment = 1
 local current_timeleft
@@ -41,28 +50,34 @@ Outro.load = function()
   images[OVAL_OFFICE] = love.graphics.newImage('data/assets/oval-office.png')
   images[ANDY_JASSY] = love.graphics.newImage('data/assets/andy-jassy.png')
   images[MIKE_PURDY] = love.graphics.newImage('data/assets/mike-purdy.png')
+  images[JEFF_BEZOS] = love.graphics.newImage('data/assets/jeff-bezos.png')
   next_button = {
     x = 224 , y = 240, width = 32, height = 16,
     sprite = Sprite.newQuad(13, 0, 32, 16),
+    disabled_sprite = Sprite.newQuad(15, 0, 32, 16),
     disabled = true,
     click = function(self)
+      if self.disabled then return end
       if (current_segment == #SEGMENTS) then
-        GameState.set_simulation()
+        GameState.set_title()
         return
       end
       current_segment = current_segment + 1
-      current_timeleft = SEGMENTS[current_segment][3]
       self.disabled = true
+      TimedFunction.new(function()
+        self.disabled = false
+        local autoclick = SEGMENTS[current_segment][5]
+        if autoclick then
+          next_button:click()
+          return
+        end
+      end, SEGMENTS[current_segment][3])
     end
   }
-  current_timeleft = SEGMENTS[current_segment][3]
-end
-
-Outro.update = function(dt)
-  current_timeleft = current_timeleft - dt
-  if current_timeleft < 0 then
+  TimedFunction.new(function()
     next_button.disabled = false
-  end
+    next_button:click()
+  end, 1)
 end
 
 Outro.draw = function()
@@ -79,7 +94,9 @@ Outro.draw = function()
   love.graphics.setColor(PicoColors.WHITE)
   love.graphics.print(text, 20, 20)
   love.graphics.setColor(1, 1, 1)
-  if not next_button.disabled then
+  if next_button.disabled then
+    love.graphics.draw(Sprite.texture, next_button.disabled_sprite, next_button.x, next_button.y)
+  else
     love.graphics.draw(Sprite.texture, next_button.sprite, next_button.x, next_button.y)
   end
 end

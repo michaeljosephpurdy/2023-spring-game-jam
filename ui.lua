@@ -125,9 +125,9 @@ UI.load = function()
 
   local question_mark_button = {
     sprite = Sprite.newQuad(10, 1),
-    x = 240,
-    y = 240,
-    width = 16,
+    x = 234,
+    y = 234,
+    width = 22,
     height = 16,
     show_overlay = false,
     click = function(self)
