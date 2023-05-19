@@ -11,6 +11,6 @@ end
 
 Audio.stop = function()
   if Audio.bg:isPlaying() then
-    Audio.bg.stop()
+    Audio.bg:stop()
   end
 end

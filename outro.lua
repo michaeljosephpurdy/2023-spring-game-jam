@@ -17,7 +17,7 @@ local SEGMENTS = {
   { { OVAL_OFFICE, MIKE_PURDY, ANDY_JASSY }, "Me:\nPlease include this as\nan example of Deliver Results\non my next Forte." , 3, .65 },
   { { OVAL_OFFICE, MIKE_PURDY }, "???? ????:\nOh, he will." , .6, .55, true },
   { { OVAL_OFFICE, MIKE_PURDY }, "???? ????:\nOh, he will.\nI'll make sure of it." , 1, .55 },
-  { { OVAL_OFFICE, MIKE_PURDY }, "Me:\nYou're the President?!" , .25, .4 },
+  { { OVAL_OFFICE, MIKE_PURDY }, "Me:\nYou're the President of\nthe United States?!" , .25, .55 },
   { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nThat's right" , .4, .4, true },
   { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nThat's right, I am." , .5, .4 },
   { { OVAL_OFFICE, MIKE_PURDY, JEFF_BEZOS }, "Jeff Bezos:\nWhen you innovate for customers\nfor as long as I have" , .5, .65 },

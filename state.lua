@@ -15,8 +15,7 @@ GameState.next_level = function()
     ldtk:goTo(current_level)
   else
     current_level = 1
-    game_state = GAME_STATES.FINISHED
-    Audio.stop()
+    GameState.set_finished()
   end
 end
 
@@ -34,6 +33,7 @@ GameState.set_simulation = function()
 end
 
 GameState.set_finished = function()
+  Audio.stop()
   game_state = GAME_STATES.FINISHED
 end
 
