@@ -49,7 +49,7 @@ Puncher.draw_all = function()
       love.graphics.circle("fill", x, y, puncher.shape:getRadius())
     end
     if not paused and not puncher.fired then
-      love.graphics.print(tostring(math.ceil(puncher.countdown)), puncher.x, puncher.y - 20)
+      love.graphics.print(tostring(math.ceil(puncher.countdown)), puncher.x + 4, puncher.y + 3)
     end
   end)
 end
