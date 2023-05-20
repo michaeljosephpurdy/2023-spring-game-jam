@@ -35,20 +35,20 @@ jobs:
     - name: Artifact (love)
       uses: actions/upload-artifact@v2
       with:
-        name: $GAME_NAME - love
+        name: ${{env.GAME_NAME}} - love
         path: ${{env.ARTIFACT_PATH_LOVE}}
     - name: Artifact (AppImage)
       uses: actions/upload-artifact@v2
       with:
-        name: $GAME_NAME - appimage
+        name: ${{env.GAME_NAME}} - appimage
         path: ${{env.ARTIFACT_PATH_APPIMAGE}}
     - name: Artifact (Win64)
       uses: actions/upload-artifact@v2
       with:
-        name: $GAME_NAME - win64
+        name: ${{env.GAME_NAME}} - win64
         path: ${{env.ARTIFACT_PATH_WIN64}}
     - name: Artifact (MacOS)
       uses: actions/upload-artifact@v2
       with:
-        name: $GAME_NAME - macos
+        name: ${{env.GAME_NAME}} - macos
         path: ${{env.ARTIFACT_PATH_MACOS}}
