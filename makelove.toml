@@ -1,5 +1,5 @@
 name = "2023-spring-game-jam"
-default_targets = ["macos", "lovejs"]
+default_targets = ["appimage", "win64", "macos", "lovejs"]
 build_directory = "makelove-build"
 
 love_files = [
@@ -21,3 +21,11 @@ CFBundleIdentifier = "dev.mikepurdy.2023springgamejam"
 NSHumanReadableCopyright = "Copyright © 2023 Mike Purdy"
 CFBundleShortVersionString = "0.0.1"
 
+[windows.exe_metadata]
+FileDescription = "{name} - {version}" # "LÖVE {löve version}"
+FileVersion = "{version}" # "{löve version}"
+CompanyName = "Mike Purdy" # "LÖVE World Domination Inc."
+LegalCopyright = "Copyright © 2023 Mike Purdy"
+ProductName = "{name}" # "LÖVE"
+ProductVersion = "<same as FileVersion>"
+OriginalFilename = "<name of the generated .exe>" # "love.exe"
